@@ -10,12 +10,7 @@ export default function ThreeCanvas(props) {
 
   useEffect(() => {
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      0.25,
-      20
-    );
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
     camera.position.set(-1.8, 0.6, 2.7);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     const render = () => renderer.render(scene, camera);
@@ -31,24 +26,16 @@ export default function ThreeCanvas(props) {
         scene.background = envMap;
         scene.environment = envMap;
         texture.dispose();
-        pmremGenerator.dispose();
         render();
-        const roughnessMipmapper = new RoughnessMipmapper(renderer);
         const loader = new GLTFLoader().setPath("./DamagedHelmet/glTF/");
         loader.load("plane.gltf", function (gltf) {
-          gltf.scene.traverse(function (child) {
-            if (child.isMesh) {
-              roughnessMipmapper.generateMipmaps(child.material);
-            }
-          });
           scene.add(gltf.scene);
-          roughnessMipmapper.dispose();
           render();
         });
       });
 
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(width, height);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 0.8;
     renderer.outputEncoding = THREE.sRGBEncoding;
@@ -60,6 +47,10 @@ export default function ThreeCanvas(props) {
     controls.maxDistance = 10;
     controls.target.set(0, 0, -0.2);
     controls.update();
+
+    return () => {
+      canvasRef.current.removeChild(renderer.domElement);
+    };
   }, [canvasRef, width, height]);
 
   return <div ref={canvasRef}></div>;
