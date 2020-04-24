@@ -3,7 +3,6 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
-import { RoughnessMipmapper } from "three/examples/jsm/utils/RoughnessMipmapper";
 
 export default function ThreeCanvas(props) {
   const { canvasRef, width, height } = props;
@@ -11,7 +10,7 @@ export default function ThreeCanvas(props) {
   useEffect(() => {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    camera.position.set(-1.8, 0.6, 2.7);
+    camera.position.set(-4, 2, 2);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     const render = () => renderer.render(scene, camera);
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
@@ -20,15 +19,14 @@ export default function ThreeCanvas(props) {
 
     new RGBELoader()
       .setDataType(THREE.UnsignedByteType)
-      .setPath("./equirectangular/")
-      .load("quarry_01_1k.hdr", function (texture) {
+      .load("./quarry_01_1k.hdr", function (texture) {
         const envMap = pmremGenerator.fromEquirectangular(texture).texture;
         scene.background = envMap;
         scene.environment = envMap;
         texture.dispose();
         render();
-        const loader = new GLTFLoader().setPath("./DamagedHelmet/glTF/");
-        loader.load("plane.gltf", function (gltf) {
+        const loader = new GLTFLoader();
+        loader.load("./plane.gltf", function (gltf) {
           scene.add(gltf.scene);
           render();
         });
