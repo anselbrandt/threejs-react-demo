@@ -21,7 +21,9 @@ export default function ThreeCanvas(props) {
       .setDataType(THREE.UnsignedByteType)
       .load("./quarry_01_1k.hdr", function (texture) {
         const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+        // set scene.background to color
         scene.background = envMap;
+        // replace scene.environment with lighting
         scene.environment = envMap;
         texture.dispose();
         render();
