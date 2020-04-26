@@ -1,13 +1,20 @@
 import React, { useEffect } from "react";
 import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export default function ThreeCanvas(props) {
-  const { canvasRef, width, height, rotation } = props;
+  const { canvasRef, width, height, rotation, model } = props;
 
   useEffect(() => {
+    const ref = canvasRef;
     const scene = new THREE.Scene();
+    scene.add(model);
+
+    if (model) {
+      model.rotation.x = rotation.pitch;
+      model.rotation.y = rotation.yaw;
+      model.rotation.z = rotation.roll;
+    }
 
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
     camera.position.set(-4, 2, 2);
@@ -23,16 +30,6 @@ export default function ThreeCanvas(props) {
     const light = new THREE.HemisphereLight(0xffffff, 0x696969, 1);
     scene.add(light);
 
-    const loader = new GLTFLoader();
-    loader.load("./plane.gltf", function (gltf) {
-      const model = gltf.scene;
-      scene.add(model);
-      model.rotation.x = rotation.pitch;
-      model.rotation.y = rotation.yaw;
-      model.rotation.z = rotation.roll;
-      renderer.render(scene, camera);
-    });
-
     const gridHelper = new THREE.GridHelper(6, 5);
     scene.add(gridHelper);
 
@@ -43,11 +40,11 @@ export default function ThreeCanvas(props) {
     controls.target.set(0, 0, -0.2);
     controls.update();
 
-    canvasRef.current.appendChild(renderer.domElement);
+    ref.current.appendChild(renderer.domElement);
     renderer.render(scene, camera);
 
     return () => {
-      canvasRef.current.removeChild(renderer.domElement);
+      ref.current.removeChild(renderer.domElement);
       controls.removeEventListener();
     };
   }, [canvasRef, width, height, rotation]);

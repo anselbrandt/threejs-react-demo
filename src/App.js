@@ -1,12 +1,14 @@
 import React, { useRef, useState } from "react";
 import styles from "./App.module.css";
 import useGetViewport from "./useGetViewport";
+import useLoader from "./useLoader";
 import ThreeCanvas from "./ThreeCanvas";
 import ModelControls from "./ModelControls";
 
 function App() {
   const canvasRef = useRef();
   const { width } = useGetViewport();
+  const { model } = useLoader();
   const [rotation, setRotation] = useState({
     pitch: 0,
     yaw: 0,
@@ -37,6 +39,7 @@ function App() {
         width={width / 2}
         height={width / 2}
         rotation={rotation}
+        model={model}
       />
       <ModelControls
         rotation={rotation}
