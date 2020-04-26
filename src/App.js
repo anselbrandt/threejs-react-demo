@@ -28,7 +28,7 @@ function App() {
     }));
     setRotation((prevState) => ({
       ...prevState,
-      [name]: Math.PI * (+value / 250 - 2),
+      [name]: Math.PI * (+value / 500 - 1),
     }));
   };
 
