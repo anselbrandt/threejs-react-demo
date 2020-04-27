@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export default function ThreeCanvas(props) {
-  const { canvasRef, width, height, rotation, model } = props;
+  const { canvasRef, width, height, cameraPosition, rotation, model } = props;
 
   useEffect(() => {
     const ref = canvasRef;
@@ -17,7 +17,7 @@ export default function ThreeCanvas(props) {
     }
 
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    camera.position.set(-4, 2, 2);
+    camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
 
@@ -47,7 +47,7 @@ export default function ThreeCanvas(props) {
       ref.current.removeChild(renderer.domElement);
       controls.removeEventListener();
     };
-  }, [canvasRef, width, height, rotation]);
+  }, [canvasRef, width, height, rotation, model]);
 
   return <div ref={canvasRef}></div>;
 }

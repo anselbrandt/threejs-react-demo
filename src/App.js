@@ -9,6 +9,7 @@ function App() {
   const canvasRef = useRef();
   const { width } = useGetViewport();
   const { model } = useLoader();
+  const [cameraPosition, setCameraPosition] = useState({ x: -4, y: 2, z: 2 });
   const [rotation, setRotation] = useState({
     pitch: 0,
     yaw: 0,
@@ -19,6 +20,8 @@ function App() {
     yaw: 500,
     roll: 500,
   });
+
+  const handleOrbit = () => {};
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -38,8 +41,10 @@ function App() {
         canvasRef={canvasRef}
         width={width / 2}
         height={width / 2}
+        cameraPosition={cameraPosition}
         rotation={rotation}
         model={model}
+        handleOrbit={handleOrbit}
       />
       <ModelControls
         rotation={rotation}
