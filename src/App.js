@@ -4,6 +4,7 @@ import useGetViewport from "./useGetViewport";
 import useLoader from "./useLoader";
 import ThreeCanvas from "./ThreeCanvas";
 import ModelControls from "./ModelControls";
+import CameraControls from "./CameraControls";
 
 function App() {
   const canvasRef = useRef();
@@ -20,10 +21,13 @@ function App() {
     yaw: 500,
     roll: 500,
   });
+  const [sliderPosition, setSliderPosition] = useState({
+    zoom: 500,
+    x: 500,
+    y: 500,
+  });
 
-  const handleOrbit = () => {};
-
-  const handleChange = (event) => {
+  const handleRotation = (event) => {
     const { name, value } = event.target;
     setSliderRotation((prevState) => ({
       ...prevState,
@@ -32,6 +36,14 @@ function App() {
     setRotation((prevState) => ({
       ...prevState,
       [name]: Math.PI * (+value / 500 - 1),
+    }));
+  };
+
+  const handlePosition = (event) => {
+    const { name, value } = event.target;
+    setSliderPosition((prevState) => ({
+      ...prevState,
+      [name]: value,
     }));
   };
 
@@ -44,12 +56,15 @@ function App() {
         cameraPosition={cameraPosition}
         rotation={rotation}
         model={model}
-        handleOrbit={handleOrbit}
+      />
+      <CameraControls
+        sliderPosition={sliderPosition}
+        handlePosition={handlePosition}
       />
       <ModelControls
         rotation={rotation}
         sliderRotation={sliderRotation}
-        handleChange={handleChange}
+        handleRotation={handleRotation}
       />
     </div>
   );

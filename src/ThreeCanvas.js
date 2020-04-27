@@ -37,7 +37,6 @@ export default function ThreeCanvas(props) {
     controls.addEventListener("change", () => renderer.render(scene, camera)); // use if there is no animation loop
     controls.minDistance = 2;
     controls.maxDistance = 10;
-    controls.target.set(0, 0, -0.2);
     controls.update();
 
     ref.current.appendChild(renderer.domElement);
@@ -47,7 +46,7 @@ export default function ThreeCanvas(props) {
       ref.current.removeChild(renderer.domElement);
       controls.removeEventListener();
     };
-  }, [canvasRef, width, height, rotation, model]);
+  }, [canvasRef, width, height, rotation]);
 
   return <div ref={canvasRef}></div>;
 }

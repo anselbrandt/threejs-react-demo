@@ -11,7 +11,7 @@ export default function ModelControls(props) {
           min={0}
           max={1000}
           value={props.sliderRotation.pitch}
-          onChange={props.handleChange}
+          onChange={props.handleRotation}
         />
         {props.sliderRotation.pitch}
       </div>
@@ -24,7 +24,7 @@ export default function ModelControls(props) {
           min={0}
           max={1000}
           value={props.sliderRotation.yaw}
-          onChange={props.handleChange}
+          onChange={props.handleRotation}
         />
         {props.sliderRotation.yaw}
       </div>
@@ -37,7 +37,7 @@ export default function ModelControls(props) {
           min={0}
           max={1000}
           value={props.sliderRotation.roll}
-          onChange={props.handleChange}
+          onChange={props.handleRotation}
         />
         {props.sliderRotation.roll}
       </div>
