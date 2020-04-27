@@ -34,7 +34,11 @@ export default function ThreeCanvas(props) {
     scene.add(gridHelper);
 
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.addEventListener("change", () => renderer.render(scene, camera)); // use if there is no animation loop
+    controls.addEventListener("change", () => {
+      renderer.render(scene, camera);
+      const data = camera.position;
+      console.log(data);
+    }); // use if there is no animation loop
     controls.minDistance = 2;
     controls.maxDistance = 10;
     controls.update();
