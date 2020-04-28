@@ -11,6 +11,7 @@ export default function ThreeCanvas(props) {
     rotation,
     model,
     handleOrbit,
+    colors,
   } = props;
 
   useEffect(() => {
@@ -20,22 +21,38 @@ export default function ThreeCanvas(props) {
     camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color().setHSL(0.6, 0, 1);
+    scene.background = new THREE.Color().setHSL(
+      colors.background.h,
+      colors.background.s,
+      colors.background.l
+    );
     scene.fog = new THREE.Fog(scene.background, 1, 5000);
 
     // Lights
 
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
-    hemiLight.color.setHSL(0.6, 1, 0.6);
-    hemiLight.groundColor.setHSL(0.095, 1, 0.75);
+    hemiLight.color.setHSL(
+      colors.hemilight.h,
+      colors.hemilight.s,
+      colors.hemilight.l
+    );
+    hemiLight.groundColor.setHSL(
+      colors.ground.h,
+      colors.ground.s,
+      colors.ground.l
+    );
     hemiLight.position.set(0, 50, 0);
     scene.add(hemiLight);
 
-    const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10);
-    scene.add(hemiLightHelper);
+    // const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10);
+    // scene.add(hemiLightHelper);
 
     const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-    dirLight.color.setHSL(0.1, 1, 0.95);
+    dirLight.color.setHSL(
+      colors.dirlight.h,
+      colors.dirlight.s,
+      colors.dirlight.l
+    );
     dirLight.position.set(-1, 1.75, 1);
     dirLight.position.multiplyScalar(30);
     dirLight.castShadow = true;
@@ -50,14 +67,14 @@ export default function ThreeCanvas(props) {
     dirLight.shadow.bias = -0.0001;
     scene.add(dirLight);
 
-    const dirLightHeper = new THREE.DirectionalLightHelper(dirLight, 10);
-    scene.add(dirLightHeper);
+    // const dirLightHeper = new THREE.DirectionalLightHelper(dirLight, 10);
+    // scene.add(dirLightHeper);
 
     // Ground
 
     const groundGeo = new THREE.PlaneBufferGeometry(10000, 10000);
     const groundMat = new THREE.MeshLambertMaterial({ color: 0xffffff });
-    groundMat.color.setHSL(0.095, 1, 0.75);
+    groundMat.color.setHSL(colors.ground.h, colors.ground.s, colors.ground.l);
     const ground = new THREE.Mesh(groundGeo, groundMat);
     ground.position.y = -33;
     ground.rotation.x = -Math.PI / 2;
@@ -82,7 +99,7 @@ export default function ThreeCanvas(props) {
       gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max( h , 0.0), exponent ), 0.0 ) ), 1.0 );
     }`;
     const uniforms = {
-      topColor: { value: new THREE.Color(0x0077ff) },
+      topColor: { value: new THREE.Color(colors.sky) },
       bottomColor: { value: new THREE.Color(0xffffff) },
       offset: { value: 33 },
       exponent: { value: 0.6 },
@@ -112,6 +129,11 @@ export default function ThreeCanvas(props) {
       model.rotation.y = rotation.yaw;
       model.rotation.z = rotation.roll;
     }
+
+    // Axes
+
+    // const axesHelper = new THREE.AxesHelper(25);
+    // scene.add(axesHelper);
 
     // Renderer
 
@@ -143,7 +165,7 @@ export default function ThreeCanvas(props) {
       ref.current.removeChild(renderer.domElement);
       controls.removeEventListener();
     };
-  }, [canvasRef, width, height, rotation]);
+  }, [canvasRef, width, height, rotation, colors]);
 
   return <div ref={canvasRef}></div>;
 }

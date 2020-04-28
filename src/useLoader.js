@@ -6,8 +6,7 @@ export default function useLoader() {
   useEffect(() => {
     const loader = new GLTFLoader();
     loader.load("./plane.glb", function (gltf) {
-      //setModel(gltf.scene.children[0]);
-      setModel(gltf.scene);
+      setModel(gltf.scene.children[0]);
     });
   }, []);
   return { model };

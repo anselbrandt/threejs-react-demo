@@ -25,6 +25,18 @@ function App() {
     yaw: 500,
     roll: 500,
   });
+  const [colors, setColors] = useState({
+    // background: { h: 0.6, s: 0, l: 1 },
+    // hemilight: { h: 0.6, s: 1, l: 0.6 },
+    // ground: { h: 0.095, s: 1, l: 0.75 },
+    // dirlight: { h: 0.1, s: 1, l: 0.95 },
+    // sky: 0x0077ff,
+    background: { h: 0.86, s: 0, l: 1 },
+    hemilight: { h: 0.86, s: 1, l: 0.6 },
+    ground: { h: 0.86, s: 1, l: 0.75 },
+    dirlight: { h: 0.86, s: 1, l: 0.95 },
+    sky: 0xffffff,
+  });
 
   const handleRotation = (event) => {
     const { name, value } = event.target;
@@ -46,12 +58,13 @@ function App() {
     <div className={styles.app}>
       <ThreeCanvas
         canvasRef={canvasRef}
-        width={width * 0.8}
-        height={width * 0.8}
+        width={width * 0.5}
+        height={width * 0.5}
         cameraPosition={cameraPosition}
         handleOrbit={handleOrbit}
         rotation={rotation}
         model={model}
+        colors={colors}
       />
       <ModelControls
         rotation={rotation}
