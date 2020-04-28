@@ -47,6 +47,10 @@ function App() {
     }));
   };
 
+  const handleOrbit = (position) => {
+    setCameraPosition(position);
+  };
+
   return (
     <div className={styles.app}>
       <ThreeCanvas
@@ -54,13 +58,14 @@ function App() {
         width={width / 2}
         height={width / 2}
         cameraPosition={cameraPosition}
+        handleOrbit={handleOrbit}
         rotation={rotation}
         model={model}
       />
-      <CameraControls
+      {/* <CameraControls
         sliderPosition={sliderPosition}
         handlePosition={handlePosition}
-      />
+      /> */}
       <ModelControls
         rotation={rotation}
         sliderRotation={sliderRotation}

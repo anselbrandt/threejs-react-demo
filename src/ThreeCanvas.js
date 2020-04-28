@@ -3,7 +3,15 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export default function ThreeCanvas(props) {
-  const { canvasRef, width, height, cameraPosition, rotation, model } = props;
+  const {
+    canvasRef,
+    width,
+    height,
+    cameraPosition,
+    rotation,
+    model,
+    handleOrbit,
+  } = props;
 
   useEffect(() => {
     const ref = canvasRef;
@@ -35,9 +43,9 @@ export default function ThreeCanvas(props) {
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.addEventListener("change", () => {
+      const position = camera.position;
+      handleOrbit(position);
       renderer.render(scene, camera);
-      const data = camera.position;
-      console.log(data);
     }); // use if there is no animation loop
     controls.minDistance = 2;
     controls.maxDistance = 10;
