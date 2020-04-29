@@ -137,7 +137,6 @@ export default function ThreeCanvas(props) {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.addEventListener("change", () => {
       const position = camera.position;
-      console.log(position);
       handleOrbit(position);
       renderer.render(scene, camera);
     }); // use if there is no animation loop
