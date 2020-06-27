@@ -5,7 +5,7 @@ export default function useLoader() {
   const [model, setModel] = useState();
   useEffect(() => {
     const loader = new GLTFLoader();
-    loader.load("./plane.glb", function (gltf) {
+    loader.load(process.env.PUBLIC_URL + "/plane.glb", function (gltf) {
       setModel(gltf.scene.children[0]);
     });
   }, []);
