@@ -153,7 +153,18 @@ export default function ThreeCanvas(props) {
       ref.current.removeChild(renderer.domElement);
       controls.removeEventListener();
     };
-  }, [canvasRef, width, height, rotation, colors]);
+  }, [
+    canvasRef,
+    width,
+    height,
+    rotation,
+    colors,
+    cameraPosition.x,
+    cameraPosition.y,
+    cameraPosition.z,
+    handleOrbit,
+    model,
+  ]);
 
   return <div ref={canvasRef}></div>;
 }

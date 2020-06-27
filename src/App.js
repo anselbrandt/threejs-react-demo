@@ -25,7 +25,7 @@ function App() {
     yaw: 500,
     roll: 500,
   });
-  const [colors, setColors] = useState({
+  const [colors] = useState({
     // background: { h: 0.6, s: 0, l: 1 },
     // hemilight: { h: 0.6, s: 1, l: 0.6 },
     // ground: { h: 0.095, s: 1, l: 0.75 },
